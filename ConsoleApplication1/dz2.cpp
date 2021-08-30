@@ -4,8 +4,8 @@ using namespace std;
 class Person {
 
 public:
-	Person(string c_name)
-	:name (c_name){}
+	Person (string c_name)
+		:name(c_name) {}
 
 	
 	void set_name(string c_name) {
@@ -29,12 +29,13 @@ protected:
 	string gender;
 	string weight;
 };
-class Student : Person {
+class Student : public Person {
 private:
 	int year_edu;
 public:
-	void getName() {
-		cout << name;
+
+	string getName() {
+		return name;
 	}
 	void set_yearEdu( int year) {
 		year_edu = year;
@@ -54,14 +55,14 @@ protected:
 };
 
 
-class Apple : Fruit {
+class Apple : public Fruit {
 public:
 	Apple() {};
-	void getName() {
-		cout << name;
+	string getName() {
+		return name;
 	}
-	void getColour() {
-		cout << colour;
+	string getColour() {
+		return colour;
 	}
 protected:
 	string name = "apple";
@@ -71,14 +72,14 @@ protected:
 
 
 
-class Banana : Fruit {
+class Banana : public Fruit {
 public:
 	Banana() {};
-	void getName() {
-		cout << name;
+	string getName() {
+		return name;
 	}
-	void getColour() {
-		cout << colour;
+	string getColour() {
+		return colour;
 	}
 protected:
 	string name = "banana";
@@ -86,14 +87,15 @@ protected:
 };
 
 
-class GrannySmith : Apple {
+class GrannySmith : public Apple {
 public:
 	GrannySmith() {};
-	void getName() {
-		cout << name;
+	string getName() {
+		return name;
 	}
-	void getColour() {
-		cout << colour;
+
+	string getColour() {
+		return colour;
 	}
 private:
 	string name = " Granny Smith apple";
@@ -102,20 +104,24 @@ private:
 
 int main() {
 
-	//Student FrstStu("Artur");
-	//Student ScndStu("6666");
-	//Student ThirStu("5555");
-	//Student FourStu("4444");
+	Student FrstStu("Artur");
+	Student ScndStu("6666");
+	Student ThirStu("5555");
+	Student FourStu("4444");
 
 
-	//cout << FrstStu.getName() << endl;
+	cout << FrstStu.getName() << endl;-
 
 
 
-	Apple apple();
-	Banana banana();
-	GrannySmith GS();
-	string blablabla = apple.getColour;
 
 
+//	Apple apple{};
+//	Banana banana{};
+//	GrannySmith GS{};
+//	cout << "My " << apple.getName() << " is " << apple.getColour() << ".\n";
+//	cout << "My " << banana.getName() << " is " << banana.getColour() << ".\n";
+//	cout << "My " << GS.getName() << " is " << GS.getColour() << ".\n";
+//
+//
 }
