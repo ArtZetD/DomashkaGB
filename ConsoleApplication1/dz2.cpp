@@ -87,10 +87,7 @@ protected:
 class Car
 {
 public:
-     Car()
-    {
-        cout << "class Car" << endl;
-    }
+
 protected:
     string company;
     string model;
@@ -103,7 +100,7 @@ protected:
      {
          company = "tesla";
          model = "model X";
-         cout << "company - " << company << "model - " << model;
+         cout << "company - " << company << " " << "model - " << " " << model << "\n";
      }
  };
  class Bus : virtual public Car
@@ -112,17 +109,17 @@ protected:
      Bus() {
          company = "toyota";
          model = "Hiace ";
-         cout << "company - " << company << "model - " << model;
+         cout << "company - " << company << " " << "model - " << " " << model << "\n";
      }
  };
- class Minivan : public Bus, public PassengerCar
+ class Minivan : virtual public Bus, public PassengerCar
  {
  public:
      Minivan()
      {
          company = "Mersedes";
          model = "V-class ";
-         cout << "company - " << company << "model - " << model;
+         cout << "company - " << company << " " << "model - " << " " << model << "\n";
      }
  };
 int main() {
@@ -143,8 +140,8 @@ int main() {
     //recptr->area();
     //squptr->area();
     //romptr->area();
-    Car car();
-    PassengerCar passengerCar();
-    Bus bus();
-    Minivan minivan();
+
+    PassengerCar passengerCar;
+    Bus bus;
+    Minivan minivan;
 }
