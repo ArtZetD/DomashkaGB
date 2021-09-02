@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+
 using namespace std;
 /*///////////////////////////////////TASK1\/////////////////////////////////////////////////*/
 class Figure 
@@ -122,7 +123,55 @@ protected:
          cout << "company - " << company << " " << "model - " << " " << model << "\n";
      }
  };
+
+ /*////////////////////////////////////////////////TASK3\////////////////////////////////////////////////////////////////////*/
+ class Card 
+ {
+ public:
+     void getvalue(int card_value) {
+
+     }
+     void flip() {
+         if (position) {
+             position = 0;
+             cout << "карта рубашкой наверх" << endl;
+         }
+         else {
+             position = 1;
+             cout << "карта рубашкой вниз" << endl;
+         }
+    }
+
+ protected:
+     enum Card_suits  { // перечисление мастей карты
+         SPADES, // ПИКИ 
+         CLUBS,  // КРЕСТИ 
+         HEARTS, // ЧЕРВИ 
+         DIAMONDS // БУБЫ
+     };
+     enum Card_denomination // перечисление достоинств карты
+     {
+         TWO = 2, // ДВА
+         THREE = 3, // ТРИ 
+         FOUR = 4, // ЧЕТЫРЕ 
+         FIVE = 5, // ПЯТЬ
+         SIX = 6, // ШЕСТЬ
+         SEVEN = 7, // СЕМЬ 
+         EIGHT = 8, // ВОСЕМЬ
+         NINE = 9,  // ДЕВЯТЬ
+         TEN = 10, // ДЕСЯТЬ
+         JACK = 10, // ВАЛЕТ
+         QUEEN = 10, // КОРОЛЕВА
+         KING = 10, // КОРОЛЬ
+         ACE = 1 // ТУЗ 
+     };
+     bool position = 0; /* 0 карта рубашкой наверх
+                           1 карта рубашкой вниз */
+
+ };
+
 int main() {
+    setlocale(LC_ALL, "RU");
     //Circle circle(3);
     //Parallelogram parallelogram(3,4);
     //Rectangle rectangle(4, 5);
@@ -144,4 +193,6 @@ int main() {
     PassengerCar passengerCar;
     Bus bus;
     Minivan minivan;
+    Card card;
+    card.flip();
 }
