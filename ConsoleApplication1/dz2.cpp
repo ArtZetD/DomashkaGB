@@ -20,7 +20,7 @@ private:
         m_data = l_data;
         m_length += 2;
     }
-
+    
 public:
     MyVector() :
         m_length(0), m_data(nullptr),pointer(0),left_pointer(0)
@@ -142,6 +142,36 @@ public:
             std::cout << "карта рубашкой вниз" << std::endl;
         }
     }
+    bool operator< (const Card& _card)
+    {
+        return card_denomination < _card.card_denomination;
+    }
+    bool operator> (const Card& _card)
+    {
+        return card_denomination > _card.card_denomination;
+    }
+    bool operator<= (const Card& _card)
+    {
+        return card_denomination <= _card.card_denomination;
+    }
+    bool operator>= (const Card& _card)
+    {
+        return card_denomination >= _card.card_denomination;
+    }
+    bool operator== (const Card& _card)
+    {
+        return card_denomination == _card.card_denomination;
+    }
+    bool operator!= (const Card& _card)
+    {
+        return card_denomination != _card.card_denomination;
+    }
+    Card operator^ (const Card& _card) const
+    {
+        Card C1(card_suits, card_denomination);
+        C1.card_denomination = static_cast<Card_denomination>(C1.card_denomination ^ _card.card_denomination );
+        return C1;
+    }
 
 protected:
     Card_suits card_suits;
@@ -152,28 +182,88 @@ protected:
 };
 class Hand {
 public:
-    void Add(Card p_card) { // добавляет карту в руку 
+    void Add(Card* p_card) { // добавляет карту в руку 
         cards.push_back(p_card);
     }
 
-    void clear(Card* p_card) { // очищает руку 
-        cards.erase(it,cards.end());
+    void clear() { // очищает руку 
+        std::vector<Card*>::const_iterator it = cards.cbegin();
+     cards.erase(it,cards.end());
     }
     int GetValue() {
+        int sum = 0;
+        sort();
+        std::vector<Card*>::const_iterator it = cards.cbegin();
+       while (it != cards.end()) {
+           int Value = (*it)->getValue();
+           if (sum <= 10) {
+               if (Value == 1) {
+                   sum += 11;
+               }
+               else {
+                   sum += Value;
+
+               }
+           }
+           else {
+               sum += Value;
+
+           }
+           ++it;
+        }
+       
+        return  sum;
+    }
+private:
+    void sort() {
+        std::vector<Card*>::iterator it = cards.begin();
         for (it; it != cards.end(); it++) {
-           *it.getValue();
+            for (std::vector<Card*>::iterator j = it + 1; j != cards.end(); j++) {
+                if (*it < *j) {
+                    *it ^= *j;
+                    *j ^= *it;
+                    *it ^= *j;
+             
+                }
+            }
         }
     }
+public:
+    void print() {
+        std::vector<Card*>::iterator it = cards.begin();
+        for (it; it != cards.end(); it++) {
+            std::cout << (*it)->getValue() << ' ';
+        }
+
+        std::cout << '\n';
+
+    };
 protected:
-    std::vector<Card> cards; // создание вектора с обьектами карт
-    std::vector<Card>::iterator it = cards.begin();
+    std::vector<Card*> cards; // создание вектора с обьектами карт
+  
 
 };
-int main() {
-    MyVector vec(15);
-    vec.fill_vec();
-    vec.compare();
 
+int main() {
+    Card Cr1(CLUBS, ACE);
+    Card Cr2(CLUBS,THREE);
+    Card Cr3(CLUBS,FOUR);
+    Card Cr4(CLUBS,KING);
+    Card Cr6(CLUBS, ACE);
+
+    Hand hand;
   
+    hand.Add(&Cr1);
+  
+    hand.Add(&Cr2);
+    hand.Add(&Cr3);
+    hand.Add(&Cr4);
+    hand.Add(&Cr6);
+    hand.print();
+    
+    std::cout << hand.GetValue() << '\n';
+    hand.print();
+    hand.clear();
+    std::cout << hand.GetValue();
 
 }
