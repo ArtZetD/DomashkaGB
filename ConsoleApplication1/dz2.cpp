@@ -3,99 +3,71 @@
 #include <vector>
 #include <chrono>
 #include <ctime>    
-class MyVector // task 1 
+/////////////////////////////////////////////////TASK 1\////////////////////////////
+
+template<class  T>
+class Pair1
 {
-private:
-    int m_length;
-    int* m_data;
-    int pointer;
-    int left_pointer;
-    void realoc()
-    {
-        int* l_data = new int [m_length+2];
-        for (int i = left_pointer; i < pointer; i++) {
-            l_data[i] = m_data[i];    
-        }
-        delete[] m_data;
-        m_data = l_data;
-        m_length += 2;
-    }
-    
 public:
-    MyVector() :
-        m_length(0), m_data(nullptr),pointer(0),left_pointer(0)
+    Pair1(T _val, T _secVal) : value_first(_val), value_second(_secVal)
     {
     }
 
-    MyVector(size_t length):
-        m_length(length),pointer(0)
-    {
-        if (length > 0)
-            m_data = new int[length];
-        else
-            m_data = nullptr;
+    const T first() {
+        return value_first;
     }
 
-    void push_back(int elem) {
-        if (pointer < m_length) {
-       
-        }
-        else 
-        {
-            realoc();
-        }
-        m_data[pointer] = elem;
-        pointer++;
-    }
-    void Print() 
-    {
-        for (int i = left_pointer; i < pointer; i++)
-        {
-            std::cout << m_data[i] << ' ';
-        }
-        std::cout << std::endl;
+    const  T second() {
+        return value_second;
     }
 
-    void pop_back()
-    {
-       (pointer == 0) ? pointer = 0 : pointer--;
-    }
-    void pop_front() {
-        (left_pointer < pointer ) ? left_pointer++ : left_pointer;
-    }
-    void Sort() 
-    {
-        for (int i = left_pointer; i < pointer; i++) {
-            for (int j = i + 1; j < pointer; j++) {
-                if (m_data[i] < m_data[j]) {
-                    m_data[i] ^= m_data[j];
-                    m_data[j] ^= m_data[i];
-                    m_data[i] ^= m_data[j];
-                }
-            }
-        }
-    }
-    void fill_vec() {
-        for (int i = 0; i < m_length; i++) {
-            push_back(rand() % 10);
-      }
-    }
-    void compare() { // считает кол во уникальных символов (task 2)
-        size_t couter=0;
-        Sort();
-        for (int i = left_pointer; i < pointer; i++) {
-            if (m_data[i] != m_data[i - 1]) {
-                couter++;
-            }
-        }
-        std::cout << couter << std::endl;
-
-    }
-    ~MyVector()
-    {
-        delete[] m_data;
-    }
+protected:
+    T value_first;
+    T value_second;
 };
+/////////////////////////////////////////////////TASK 2\////////////////////////////
+template<class  T, class _T>
+class Pair
+{
+public:
+    Pair(T _val, _T _secVal) : value_first(_val), value_second(_secVal)
+    {
+    }
+
+    const T first() const {
+        return value_first;
+    }
+
+    const  _T second() const {
+        return value_second;
+    }
+
+
+
+protected:
+    T value_first;
+    _T value_second;
+};
+
+template<typename U>
+class StringValuePair : public Pair<std::string, U>
+{
+public:
+    StringValuePair(std::string _first, U _second)
+        :Pair<std::string, U>(_first, _second) {}
+};
+
+
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////////TASK 3\////////////////////////////////
 enum Card_suits { // перечисление мастей карты
     SPADES, // ПИКИ 
@@ -129,7 +101,7 @@ public:
 
     }
     int  getValue() {
-       return card_denomination;
+        return card_denomination;
     }
 
     void flip() { // функция переворота карт
@@ -169,7 +141,7 @@ public:
     Card operator^ (const Card& _card) const
     {
         Card C1(card_suits, card_denomination);
-        C1.card_denomination = static_cast<Card_denomination>(C1.card_denomination ^ _card.card_denomination );
+        C1.card_denomination = static_cast<Card_denomination>(C1.card_denomination ^ _card.card_denomination);
         return C1;
     }
 
@@ -188,46 +160,34 @@ public:
 
     void clear() { // очищает руку 
         std::vector<Card*>::const_iterator it = cards.cbegin();
-     cards.erase(it,cards.end());
+        cards.erase(it, cards.end());
     }
     int GetValue() {
         int sum = 0;
-        sort();
+
         std::vector<Card*>::const_iterator it = cards.cbegin();
-       while (it != cards.end()) {
-           int Value = (*it)->getValue();
-           if (sum <= 10) {
-               if (Value == 1) {
-                   sum += 11;
-               }
-               else {
-                   sum += Value;
+        while (it != cards.end()) {
+            int Value = (*it)->getValue();
+            if (sum <= 10) {
+                if (Value == 1) {
+                    sum += 11;
+                }
+                else {
+                    sum += Value;
 
-               }
-           }
-           else {
-               sum += Value;
-
-           }
-           ++it;
-        }
-       
-        return  sum;
-    }
-private:
-    void sort() {
-        std::vector<Card*>::iterator it = cards.begin();
-        for (it; it != cards.end(); it++) {
-            for (std::vector<Card*>::iterator j = it + 1; j != cards.end(); j++) {
-                if (*it < *j) {
-                    *it ^= *j;
-                    *j ^= *it;
-                    *it ^= *j;
-             
                 }
             }
+            else {
+                sum += Value;
+
+            }
+            ++it;
         }
+
+        return  sum;
     }
+
+
 public:
     void print() {
         std::vector<Card*>::iterator it = cards.begin();
@@ -240,30 +200,20 @@ public:
     };
 protected:
     std::vector<Card*> cards; // создание вектора с обьектами карт
-  
+
 
 };
 
 int main() {
-    Card Cr1(CLUBS, ACE);
-    Card Cr2(CLUBS,THREE);
-    Card Cr3(CLUBS,FOUR);
-    Card Cr4(CLUBS,KING);
-    Card Cr6(CLUBS, ACE);
 
-    Hand hand;
-  
-    hand.Add(&Cr1);
-  
-    hand.Add(&Cr2);
-    hand.Add(&Cr3);
-    hand.Add(&Cr4);
-    hand.Add(&Cr6);
-    hand.print();
-    
-    std::cout << hand.GetValue() << '\n';
-    hand.print();
-    hand.clear();
-    std::cout << hand.GetValue();
+    Pair1<int> p1(6, 9);
+    std::cout << "Pair: " << p1.first() << ' ' << p1.second() << '\n';
+                                                           
+    Pair1<double> p2(3.4, 7.8);
+    std::cout << "Pair: " << p2.first() << ' ' << p2.second() << '\n';
 
+    StringValuePair<int> svp("Amazing", 7);
+    std::cout << "Pair: " << svp.first() << ' ' << svp.second() << '\n';
+
+    return 0;
 }
