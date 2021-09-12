@@ -163,8 +163,7 @@ public:
         cards.erase(it, cards.end());
     }
     int GetValue() {
-        int sum = 0;
-
+          sum = 0;
         std::vector<Card*>::const_iterator it = cards.cbegin();
         while (it != cards.end()) {
             int Value = (*it)->getValue();
@@ -187,7 +186,6 @@ public:
         return  sum;
     }
 
-
 public:
     void print() {
         std::vector<Card*>::iterator it = cards.begin();
@@ -200,8 +198,34 @@ public:
     };
 protected:
     std::vector<Card*> cards; // создание вектора с обьектами карт
+    int sum;
 
+};
+class GenericPlayer : Hand 
+{
+public: 
+    GenericPlayer(std::string __name): name(__name)
+    {}
+    bool IsHitting() {
+        if (sum == defeatValue) {
+            return 0; // не нужна карта
+        }
+        else if (sum < defeatValue)
+            return 1; // нужна карта
+    }
 
+    bool IsBoosted() {
+        if (sum > defeatValue) return 1; // перебор 
+    }
+
+    void Boost() {
+        std::cout << name << IsBoosted() << std::endl;
+    }
+protected:
+    std::string name;
+    int defeatValue = 21;
+
+  
 };
 
 int main() {
